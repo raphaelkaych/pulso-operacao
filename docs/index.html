@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="pt-BR">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Pulso da Operação</title>
+<style>
+  * { box-sizing: border-box; }
+  body { margin: 0; color: #1b3533; background: #f7f3eb; font: 1rem/1.55 system-ui, sans-serif; }
+  header { background: #102a2b; color: #fcf5e8; padding: 3.25rem 1.5rem 4rem; }
+  .wrap { max-width: 960px; margin: auto; }
+  .rotulo { color: #e9b976; font-size: .78rem; font-weight: bold; letter-spacing: .14em; }
+  h1 { margin: .4rem 0; font: bold clamp(2.4rem, 6vw, 4.5rem)/1.08 Georgia, serif; }
+  header p { margin: .5rem 0 0; }
+  main { padding: 0 1.5rem 3rem; }
+  .numeros { margin: -1.5rem 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: .75rem; }
+  .numero { background: #fffdf8; border: 1px solid #d9dfd5; border-radius: .6rem; padding: .8rem 1rem; }
+  .numero strong { display: block; font-size: 2rem; line-height: 1.2; }
+  .tabela { overflow-x: auto; border: 1px solid #d9dfd5; border-radius: .6rem; background: #fffdf8; }
+  table { border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }
+  td, th { text-align: right; padding: .75rem; border-bottom: 1px solid #e2e6de; }
+  th:first-child { text-align: left; }
+  thead { background: #e7efe7; }
+  .atraso { color: #8a3827; font-weight: 700; }
+  .nota { max-width: 68ch; }
+</style>
+<header><div class="wrap">
+  <div class="rotulo">LABORATÓRIO DE ANÁLISE / DADOS FICTÍCIOS</div>
+  <h1>Pulso da Operação</h1>
+  <p>Fila e cumprimento de prazo em 08/05/2026 às 18:00, UTC.</p>
+</div></header>
+<main><div class="wrap">
+  <section class="numeros" aria-label="Indicadores gerais">
+    <div class="numero"><strong>18</strong>Chamados no recorte</div>
+    <div class="numero"><strong>3</strong>Abertos com prazo vencido</div>
+    <div class="numero"><strong>75%</strong>Resolvidos no prazo</div>
+  </section>
+  <h2 id="areas">Chamados por área</h2>
+  <div class="tabela" tabindex="0" role="region" aria-labelledby="areas"><table aria-labelledby="areas">
+    <thead><tr><th scope="col">Área</th><th scope="col">Total</th><th scope="col">Resolvidos</th>
+      <th scope="col">Abertos</th><th scope="col">Vencidos</th><th scope="col">Dentro do SLA</th></tr></thead>
+    <tbody><tr><th scope='row'>ERP</th><td>6</td><td>4</td><td>2</td><td class='atraso'>1</td><td>50%</td></tr>
+<tr><th scope='row'>Infraestrutura</th><td>4</td><td>3</td><td>1</td><td class='atraso'>1</td><td>67%</td></tr>
+<tr><th scope='row'>Integrações</th><td>2</td><td>0</td><td>2</td><td class='atraso'>1</td><td>—</td></tr>
+<tr><th scope='row'>Acessos</th><td>6</td><td>5</td><td>1</td><td class='atraso'>0</td><td>100%</td></tr></tbody>
+  </table></div>
+  <p class="nota">O percentual de SLA usa apenas os chamados resolvidos até o horário do recorte. Chamados ainda abertos aparecem separadamente na fila. O travessão indica que a área não teve resoluções no recorte.</p>
+</div></main>
+</html>
