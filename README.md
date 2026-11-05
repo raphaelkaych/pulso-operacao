@@ -2,6 +2,8 @@
 
 > Estudo de caso em SQL sobre fila de suporte e cumprimento de SLA.
 
+**[Abra o relatório interativo](https://raphael-kaych.raphaelvindex.chatgpt.site/demos/pulso-operacao)** para comparar três horários de corte calculados com a consulta deste repositório.
+
 Uma fila com muitos chamados nem sempre é a fila que pede atenção primeiro. Este laboratório usa uma amostra fictícia de 18 chamados. A consulta separa volume, prazos vencidos e cumprimento de SLA por área em um horário de corte.
 
 | Área | Chamados | Abertos vencidos | Resolvidos no prazo |
