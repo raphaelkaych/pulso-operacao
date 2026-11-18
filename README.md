@@ -2,6 +2,10 @@
 
 > Estudo de caso em SQL sobre fila de suporte e cumprimento de SLA.
 
+| Problema | Decisão | Resultado verificável |
+| --- | --- | --- |
+| A fila com mais chamados nem sempre é a que pede atenção primeiro. | Recortar a base em um horário de corte e agregar volume, vencidos e SLA por área em SQL. | ERP e Acessos têm o mesmo volume, mas só o ERP acumula fechamentos fora do prazo. [`test_relatorio.py`](test_relatorio.py) |
+
 **[Abra o relatório interativo](https://raphael-kaych.raphaelvindex.chatgpt.site/demos/pulso-operacao)** para comparar três horários de corte calculados com a consulta deste repositório.
 
 [Estudo de caso e arquitetura](https://raphael-kaych.raphaelvindex.chatgpt.site/projetos/pulso-operacao)
@@ -31,7 +35,7 @@ python relatorio.py --referencia "2026-05-08 20:00" --saida outro-recorte.html
 python -m unittest -v
 ```
 
-O primeiro comando gera `docs/index.html`, que abre no navegador sem conexão. O segundo gera um recorte diferente. As regras de agregação ficam em [`indicadores.sql`](indicadores.sql), e os registros fictícios ficam em [`chamados.csv`](chamados.csv).
+O primeiro comando gera `docs/index.html`, que abre no navegador sem conexão e segue a identidade visual do portfólio, com uma barra de SLA por área. O segundo gera um recorte diferente. As regras de agregação ficam em [`indicadores.sql`](indicadores.sql), e os registros fictícios ficam em [`chamados.csv`](chamados.csv).
 
 ## Como ler os números
 
