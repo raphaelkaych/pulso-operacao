@@ -6,9 +6,9 @@
 | --- | --- | --- |
 | A fila com mais chamados nem sempre é a que pede atenção primeiro. | Recortar a base em um horário de corte e agregar volume, vencidos e SLA por área em SQL. | ERP e Acessos têm o mesmo volume, mas só o ERP acumula fechamentos fora do prazo. [`test_relatorio.py`](test_relatorio.py) |
 
-**[Abra o relatório interativo](https://raphael-kaych.raphaelvindex.chatgpt.site/demos/pulso-operacao)** para comparar três horários de corte calculados com a consulta deste repositório.
+**[Abra o relatório interativo](https://raphael-kaych.raphaelkaych.workers.dev/demos/pulso-operacao)** para comparar três horários de corte calculados com a consulta deste repositório.
 
-[Estudo de caso e arquitetura](https://raphael-kaych.raphaelvindex.chatgpt.site/projetos/pulso-operacao)
+[Estudo de caso e arquitetura](https://raphael-kaych.raphaelkaych.workers.dev/projetos/pulso-operacao)
 
 Uma fila com muitos chamados nem sempre é a fila que pede atenção primeiro. Este laboratório usa uma amostra fictícia de 18 chamados. A consulta separa volume, prazos vencidos e cumprimento de SLA por área em um horário de corte.
 
