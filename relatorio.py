@@ -44,10 +44,12 @@ def renderizar(areas, referencia):
     linhas = []
     for area in areas:
         sla = percentual(area["no_prazo"], area["resolvidos"])
+        proporcao = area["no_prazo"] / area["resolvidos"] if area["resolvidos"] else 0
         linhas.append(
             f"<tr><th scope='row'>{escape(area['area'])}</th><td>{area['total']}</td>"
             f"<td>{area['resolvidos']}</td><td>{area['abertos']}</td>"
-            f"<td class='atraso'>{area['vencidos']}</td><td>{sla}</td></tr>"
+            f"<td class='atraso' data-vencidos='{area['vencidos']}'>{area['vencidos']}</td>"
+            f"<td class='sla'><span>{sla}</span><i aria-hidden='true' style='--v:{proporcao:.2f}'></i></td></tr>"
         )
     corpo = "\n".join(linhas) or "<tr><td colspan='6'>Nenhum chamado neste recorte.</td></tr>"
     total = sum(area["total"] for area in areas)
@@ -61,27 +63,41 @@ def renderizar(areas, referencia):
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Pulso da Operação</title>
 <style>
+  :root {{ color-scheme: dark; --fundo: #05070d; --superficie: #080f20; --navy: #102444; --azul: #377ffb; --acento: #75a9ff;
+    --texto: #f1f6ff; --suave: #a9bad2; --linha: #1b2c47; --ok: #82dcb9; --alerta: #ffb481; }}
   * {{ box-sizing: border-box; }}
-  body {{ margin: 0; color: #1b3533; background: #f7f3eb; font: 1rem/1.55 system-ui, sans-serif; }}
-  header {{ background: #102a2b; color: #fcf5e8; padding: 3.25rem 1.5rem 4rem; }}
-  .wrap {{ max-width: 960px; margin: auto; }}
-  .rotulo {{ color: #e9b976; font-size: .78rem; font-weight: bold; letter-spacing: .14em; }}
-  h1 {{ margin: .4rem 0; font: bold clamp(2.4rem, 6vw, 4.5rem)/1.08 Georgia, serif; }}
-  header p {{ margin: .5rem 0 0; }}
-  main {{ padding: 0 1.5rem 3rem; }}
-  .numeros {{ margin: -1.5rem 0 2rem; display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr)); gap: .75rem; }}
-  .numero {{ background: #fffdf8; border: 1px solid #d9dfd5; border-radius: .6rem; padding: .8rem 1rem; }}
-  .numero strong {{ display: block; font-size: 2rem; line-height: 1.2; }}
-  .tabela {{ overflow-x: auto; border: 1px solid #d9dfd5; border-radius: .6rem; background: #fffdf8; }}
-  table {{ border-collapse: collapse; width: 100%; font-variant-numeric: tabular-nums; }}
-  td, th {{ text-align: right; padding: .75rem; border-bottom: 1px solid #e2e6de; }}
+  body {{ margin: 0; color: var(--texto); background: var(--fundo); font: 1rem/1.6 "Segoe UI", system-ui, sans-serif; }}
+  header {{ padding: 3.5rem 1.25rem 2.5rem; border-bottom: 1px solid var(--linha);
+    background: radial-gradient(ellipse at 85% 0%, #377ffb33, transparent 60%), linear-gradient(180deg, #071022, var(--fundo)); }}
+  .wrap {{ max-width: 980px; margin: auto; }}
+  .rotulo {{ display: flex; align-items: center; gap: .6rem; color: var(--suave); font-size: .95rem; }}
+  .rotulo::before {{ content: ""; width: 2rem; height: 2px; border-radius: 2px; background: var(--azul); }}
+  h1 {{ margin: .6rem 0 .4rem; font-size: clamp(2.4rem, 7vw, 4.2rem); font-weight: 650; line-height: 1; letter-spacing: -.05em; }}
+  header p {{ margin: 0; color: var(--suave); }}
+  main {{ padding: 2rem 1.25rem 3.5rem; }}
+  .numeros {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); margin: 0 0 2.5rem; border-top: 1px solid var(--linha); }}
+  .numero {{ padding: 1rem 1rem 0 0; color: var(--suave); }}
+  .numero + .numero {{ padding-left: 1rem; border-left: 1px solid var(--linha); }}
+  .numero strong {{ display: block; color: var(--texto); font-size: 2.6rem; font-weight: 650; line-height: 1.1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }}
+  h2 {{ font-size: 1.4rem; font-weight: 620; letter-spacing: -.02em; margin: 0 0 .9rem; }}
+  .tabela {{ overflow-x: auto; border: 1px solid #2b4469; border-radius: 14px; background: var(--superficie); }}
+  .tabela:focus-visible {{ outline: 2px solid var(--acento); outline-offset: 3px; }}
+  table {{ border-collapse: collapse; width: 100%; min-width: 560px; font-variant-numeric: tabular-nums; }}
+  td, th {{ text-align: right; padding: .8rem 1rem; border-bottom: 1px solid var(--linha); }}
+  tbody tr:last-child > * {{ border-bottom: 0; }}
   th:first-child {{ text-align: left; }}
-  thead {{ background: #e7efe7; }}
-  .atraso {{ color: #8a3827; font-weight: 700; }}
-  .nota {{ max-width: 68ch; }}
+  thead th {{ color: var(--suave); font-size: .85rem; font-weight: 560; background: #0a1529; }}
+  tbody th {{ font-weight: 600; }}
+  .atraso {{ color: var(--suave); }}
+  .atraso:not([data-vencidos="0"]) {{ color: var(--alerta); font-weight: 700; }}
+  .sla {{ min-width: 9rem; }}
+  .sla span {{ display: inline-block; min-width: 3ch; }}
+  .sla i {{ display: block; height: 4px; margin-top: .35rem; border-radius: 2px;
+    background: linear-gradient(90deg, var(--ok) calc(var(--v) * 100%), var(--linha) 0); }}
+  .nota {{ max-width: 68ch; margin-top: 1.1rem; color: var(--suave); font-size: .95rem; }}
 </style>
 <header><div class="wrap">
-  <div class="rotulo">LABORATÓRIO DE ANÁLISE / DADOS FICTÍCIOS</div>
+  <div class="rotulo">Laboratório de análise, dados fictícios</div>
   <h1>Pulso da Operação</h1>
   <p>Fila e cumprimento de prazo em {data}, UTC.</p>
 </div></header>
